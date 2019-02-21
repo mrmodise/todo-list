@@ -97,7 +97,7 @@ public class TaskResource {
         return ResponseUtil.wrapOrNotFound(task);
     }
 
-    @GetMapping("/tasks/{title}")
+    @GetMapping("/tasks/title")
     public ResponseEntity<Task> getTasksByTitle(@PathVariable(name = "title") String title) {
         log.debug("REST request to get Task : {}", title);
         Optional<Task> task = taskRepository.findByTitle(title);

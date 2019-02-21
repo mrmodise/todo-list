@@ -60,7 +60,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     search() {
         const term = this.searchForm.get('term').value;
         this.taskService
-            .query(term)
+            .query({ title: term })
             .pipe(
                 filter((res: HttpResponse<ITask[]>) => res.ok),
                 map((res: HttpResponse<ITask[]>) => res.body)
