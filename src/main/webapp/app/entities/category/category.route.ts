@@ -35,8 +35,8 @@ export const categoryRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Categories'
-        },
-        canActivate: [UserRouteAccessService]
+        }
+        // canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/view',
@@ -47,8 +47,8 @@ export const categoryRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Categories'
-        },
-        canActivate: [UserRouteAccessService]
+        }
+        // canActivate: [UserRouteAccessService]
     },
     {
         path: 'new',
@@ -59,8 +59,8 @@ export const categoryRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Categories'
-        },
-        canActivate: [UserRouteAccessService]
+        }
+        // canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/edit',
@@ -71,8 +71,8 @@ export const categoryRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Categories'
-        },
-        canActivate: [UserRouteAccessService]
+        }
+        // canActivate: [UserRouteAccessService]
     }
 ];
 
@@ -87,7 +87,7 @@ export const categoryPopupRoute: Routes = [
             authorities: ['ROLE_USER'],
             pageTitle: 'Categories'
         },
-        canActivate: [UserRouteAccessService],
+        // canActivate: [UserRouteAccessService],
         outlet: 'popup'
     }
 ];

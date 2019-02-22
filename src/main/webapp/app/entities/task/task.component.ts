@@ -44,9 +44,11 @@ export class TaskComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
+        /*
+        // disabling security
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-        });
+        });*/
         this.registerChangeInTasks();
         this.createSearchForm();
     }

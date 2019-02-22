@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="activity">
+            <h2><span>Activity</span> {{activity.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Title</span></dt>
+                <dd>
+                    <span>{{activity.title}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{activity.description}}</span>
+                </dd>
+                <dt><span>Due Date</span></dt>
+                <dd>
+                    <span>{{activity.dueDate}}</span>
+                </dd>
+                <dt><span>Completed</span></dt>
+                <dd>
+                    <span>{{activity.completed}}</span>
+                </dd>
+                <dt><span>Category</span></dt>
+                <dd>
+                    <span>{{activity.category}}</span>
+                </dd>
+                <dt><span>Categories</span></dt>
+                <dd>
+                    <div *ngIf="activity.categories">
+                        <a [routerLink]="['/category', activity.categories?.id, 'view']">{{activity.categories?.name}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/activity', activity.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
