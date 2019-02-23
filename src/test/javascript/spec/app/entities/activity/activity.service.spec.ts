@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { ActivityService } from 'app/entities/activity/activity.service';
 import { IActivity, Activity } from 'app/shared/model/activity.model';
+import { Category, ICategory } from 'app/shared/model/category.model';
 
 describe('Service Tests', () => {
     describe('Activity Service', () => {
@@ -16,6 +17,7 @@ describe('Service Tests', () => {
         let httpMock: HttpTestingController;
         let elemDefault: IActivity;
         let currentDate: moment.Moment;
+        let cat: ICategory;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -25,7 +27,8 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Activity(0, 'AAAAAAA', 'AAAAAAA', currentDate, false, 'AAAAAAA');
+            cat = new Category();
+            elemDefault = new Activity(0, 'AAAAAAA', 'AAAAAAA', currentDate, false, cat);
         });
 
         describe('Service methods', async () => {

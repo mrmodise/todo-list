@@ -13,8 +13,12 @@ import { RouterModule } from '@angular/router';
                 loadChildren: './category/category.module#TodoCategoryModule'
             },
             {
-                path: 'task',
-                loadChildren: './task/task.module#TodoTaskModule'
+                path: 'activity',
+                loadChildren: './activity/activity.module#TodoActivityModule'
+            },
+            {
+                path: 'activity',
+                loadChildren: './activity/activity.module#TodoActivityModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

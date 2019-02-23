@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
-
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { IActivity } from 'app/shared/model/activity.model';
 import { AccountService } from 'app/core';
-
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ActivityService } from './activity.service';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-activity',
@@ -29,6 +28,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    searchField: FormControl;
 
     constructor(
         protected activityService: ActivityService,
@@ -59,6 +59,26 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 (res: HttpResponse<IActivity[]>) => this.paginateActivities(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    search() {
+        // create search input field
+        this.searchField = new FormControl();
+
+        // retrieve user input
+        this.searchField.valueChanges
+            .pipe(
+                debounceTime(200), // value can be adjusted to avoid overloading the server. the trade-off is user experience
+                distinctUntilChanged()
+            )
+            .subscribe(term => {
+                this.activityService
+                    .query({ 'title.contains': term })
+                    .subscribe(
+                        (res: HttpResponse<IActivity[]>) => this.paginateActivities(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            });
     }
 
     loadPage(page: number) {
@@ -93,12 +113,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        /*
-        // disabling security
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });*/
+        /* this.accountService.identity().then(account => {
+             this.currentAccount = account;
+         });*/
         this.registerChangeInActivities();
+        this.search();
     }
 
     ngOnDestroy() {

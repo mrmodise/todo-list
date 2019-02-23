@@ -1,27 +1,55 @@
 <div>
-    <h2 id="page-heading">
-        <span>Activities</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-activity" [routerLink]="['/activity/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
+    <div class="row justify-content-center align-items-center">
+        <h2>TO-DO List</h2>
+    </div>
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+            <input type="text" [formControl]="searchField" class="form-control" name="searchField"
+            placeholder="Search by title and category">
+ </div>
+</div>
+<!--<div class="d-flex justify-content-center align-items-center container">-->
+        <!--<div class="row justify-content-center align-items-center">-->
+            <!--<h3>TO-DO List</h3>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<input type="text" [formControl]="searchField" class="form-control" name="searchField"-->
+                   <!--placeholder="Search by title and category">-->
+        <!--</div>-->
+    <!--</div>-->
+    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-activity"
+            [routerLink]="['/activity/new']">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span>
             Create new Activity
             </span>
-        </button>
-    </h2>
+    </button>
+    <br>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" *ngIf="activities">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="dueDate"><span>Due Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="completed"><span>Completed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="category"><span>Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="categories.name"><span>Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <th jhiSortBy="id"><span>ID</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="title"><span>Title</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="description"><span>Description</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="dueDate"><span>Due Date</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="completed"><span>Completed</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="categories.name"><span>Categories</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -31,10 +59,9 @@
                 <td>{{activity.description}}</td>
                 <td>{{activity.dueDate | date:'mediumDate'}}</td>
                 <td>{{activity.completed}}</td>
-                <td>{{activity.category}}</td>
                 <td>
                     <div *ngIf="activity.categories">
-                        <a [routerLink]="['../category', activity.categories?.id, 'view' ]" >{{activity.categories?.name}}</a>
+                        <a [routerLink]="['../category', activity.categories?.id, 'view' ]">{{activity.categories?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -67,10 +94,12 @@
     </div>
     <div *ngIf="activities && activities.length">
         <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            <jhi-item-count [page]="page" [total]="totalItems" [maxSize]="5"
+                            [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                            [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>

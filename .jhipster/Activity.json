@@ -9,7 +9,9 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipName": "activity"
         }
     ],
     "fields": [
