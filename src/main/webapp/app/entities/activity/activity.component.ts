@@ -42,6 +42,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
+            console.log(`Page is ${this.page}`);
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
@@ -73,7 +74,12 @@ export class ActivityComponent implements OnInit, OnDestroy {
             )
             .subscribe(term => {
                 this.activityService
-                    .query({ 'title.contains': term })
+                    .query({
+                        'title.contains': term,
+                        page: this.page - 1,
+                        size: this.itemsPerPage,
+                        sort: this.sort()
+                    })
                     .subscribe(
                         (res: HttpResponse<IActivity[]>) => this.paginateActivities(res.body, res.headers),
                         (res: HttpErrorResponse) => this.onError(res.message)
