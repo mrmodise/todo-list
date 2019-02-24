@@ -18,6 +18,8 @@ export class TaskComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     searchForm: FormGroup;
+    panelOpenState = false;
+    public isCollapsed = false;
 
     constructor(
         protected taskService: TaskService,

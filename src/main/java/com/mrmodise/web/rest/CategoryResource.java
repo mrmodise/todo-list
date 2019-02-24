@@ -97,6 +97,13 @@ public class CategoryResource {
         return ResponseUtil.wrapOrNotFound(category);
     }
 
+    @GetMapping("/categories/category/{title}")
+    public ResponseEntity<Category> getCategoryByName(@PathVariable String title) {
+        log.debug("REST request to get Category ::--> {}", title);
+        Optional<Category> category = categoryRepository.findByName(title);
+        return ResponseUtil.wrapOrNotFound(category);
+    }
+
     /**
      * DELETE  /categories/:id : delete the "id" category.
      *

@@ -29,6 +29,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     searchField: FormControl;
+    public isCollapsed = true;
 
     constructor(
         protected activityService: ActivityService,
@@ -42,7 +43,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
-            console.log(`Page is ${this.page}`);
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
@@ -65,7 +65,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
     search() {
         // create search input field
         this.searchField = new FormControl();
-
         // retrieve user input
         this.searchField.valueChanges
             .pipe(
@@ -76,6 +75,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 this.activityService
                     .query({
                         'title.contains': term,
+                        categories: term,
                         page: this.page - 1,
                         size: this.itemsPerPage,
                         sort: this.sort()

@@ -1,32 +1,29 @@
-<div>
+<div class="p-4">
     <div class="row justify-content-center align-items-center">
         <h2>TO-DO List</h2>
     </div>
-    <div class="row justify-content-center align-items-center h-100">
+    <div class="row justify-content-center align-items-center h-100 mb-3">
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <input type="text" [formControl]="searchField" class="form-control" name="searchField"
-            placeholder="Search by title and category">
- </div>
-</div>
-<!--<div class="d-flex justify-content-center align-items-center container">-->
-        <!--<div class="row justify-content-center align-items-center">-->
-            <!--<h3>TO-DO List</h3>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<input type="text" [formControl]="searchField" class="form-control" name="searchField"-->
-                   <!--placeholder="Search by title and category">-->
-        <!--</div>-->
-    <!--</div>-->
-    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-activity"
-            [routerLink]="['/activity/new']">
-        <fa-icon [icon]="'plus'"></fa-icon>
-        <span>
+                   placeholder="Search by title and category">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <jhi-alert></jhi-alert>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-12">
+            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-activity"
+                    [routerLink]="['/activity/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span>
             Create new Activity
             </span>
-    </button>
-    <br>
-    <jhi-alert></jhi-alert>
-    <br/>
+            </button>
+        </div>
+    </div>
     <div class="table-responsive" *ngIf="activities">
         <table class="table table-striped">
             <thead>
@@ -37,34 +34,21 @@
                 <th jhiSortBy="title"><span>Title</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
-                <th jhiSortBy="description"><span>Description</span>
-                    <fa-icon [icon]="'sort'"></fa-icon>
-                </th>
-                <th jhiSortBy="dueDate"><span>Due Date</span>
-                    <fa-icon [icon]="'sort'"></fa-icon>
-                </th>
-                <th jhiSortBy="completed"><span>Completed</span>
-                    <fa-icon [icon]="'sort'"></fa-icon>
-                </th>
                 <th jhiSortBy="categories.name"><span>Categories</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let activity of activities ;trackBy: trackId">
-                <td><a [routerLink]="['/activity', activity.id, 'view' ]">{{activity.id}}</a></td>
+            <tr *ngFor="let activity of activities ;trackBy: trackId" (click)="isCollapsed = !isCollapsed">
+                <td>{{activity.id}}</td>
                 <td>{{activity.title}}</td>
-                <td>{{activity.description}}</td>
-                <td>{{activity.dueDate | date:'mediumDate'}}</td>
-                <td>{{activity.completed}}</td>
                 <td>
                     <div *ngIf="activity.categories">
-                        <a [routerLink]="['../category', activity.categories?.id, 'view' ]">{{activity.categories?.name}}</a>
+                        {{activity.categories?.name}}
                     </div>
                 </td>
-                <td class="text-right">
+                <!--<td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/activity', activity.id, 'view' ]"
@@ -87,10 +71,11 @@
                             <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
-                </td>
+                </td>-->
             </tr>
             </tbody>
         </table>
+        <br>
     </div>
     <div *ngIf="activities && activities.length">
         <div class="row justify-content-center">
