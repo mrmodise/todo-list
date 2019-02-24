@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { IActivity } from 'app/shared/model/activity.model';
+import { Activity, IActivity } from 'app/shared/model/activity.model';
 import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ActivityService } from './activity.service';
@@ -30,6 +30,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     reverse: any;
     searchField: FormControl;
     public isCollapsed = true;
+    id: number;
 
     constructor(
         protected activityService: ActivityService,
@@ -154,5 +155,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    open(id: number) {
+        console.log(`Id is ${id}`);
     }
 }

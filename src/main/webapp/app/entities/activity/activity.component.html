@@ -25,12 +25,78 @@
         </div>
     </div>
     <div class="table-responsive" *ngIf="activities">
+        <div class="list-group" *ngFor="let activity of activities">
+            <button type="button" class="list-group-item list-group-item-action" (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseActivity">
+                <span class="float-left">{{activity.title}}</span>
+                <span class="float-right">{{activity.categories?.name}}</span>
+            </button>
+            <div id="collapseActivity" [ngbCollapse]="isCollapsed">
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="row-md jh-entity-details">
+                            <dt><span>Title</span></dt>
+                            <dd>
+                                <span>{{activity.title}}</span>
+                            </dd>
+                            <dt><span>Description</span></dt>
+                            <dd>
+                                <span>{{activity.description}}</span>
+                            </dd>
+                            <dt><span>Due Date</span></dt>
+                            <dd>
+                                <span>{{activity.dueDate | date: 'mediumDate'}}</span>
+                            </dd>
+                            <dt><span>Completed</span></dt>
+                            <dd>
+                                <span>{{activity.completed}}</span>
+                            </dd>
+                            <dt><span>Category</span></dt>
+                            <dd>
+                                <span>{{activity.category}}</span>
+                            </dd>
+                            <dt><span>Categories</span></dt>
+                            <dd *ngIf="activity.categories">
+                                <span>{{activity.categories?.name}}</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<ul class="list-group">
+            <li class="list-group-item" *ngFor="let activity of activities">
+                <div class="checkbox" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <input type="checkbox" class="list-child float-left mr-3"
+                          [checked]="activity.completed">
+                    <span ngClass="{{activity.completed ? 'name completed': 'name'}}" class="float-left">{{activity.title}}</span>
+                    <span class="label float-right">{{activity.categories?.name}}</span>
+                </div>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+            </li>
+        </ul>-->
+        <!--<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let activity of activities ;trackBy: trackId">
+            <ngb-panel title="{{activity.title}}">
+                <ng-template ngbPanelContent >
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+                    aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+                    craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+                    occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                    labore sustainable VHS.
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                <th jhiSortBy="id"><span>ID</span>
+                &lt;!&ndash;<th jhiSortBy="id"><span>ID</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
-                </th>
+                </th>&ndash;&gt;
                 <th jhiSortBy="title"><span>Title</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
@@ -40,15 +106,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let activity of activities ;trackBy: trackId" (click)="isCollapsed = !isCollapsed">
-                <td>{{activity.id}}</td>
+            <tr *ngFor="let activity of activities ;trackBy: trackId">
                 <td>{{activity.title}}</td>
                 <td>
                     <div *ngIf="activity.categories">
                         {{activity.categories?.name}}
                     </div>
                 </td>
-                <!--<td class="text-right">
+                &lt;!&ndash;<td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/activity', activity.id, 'view' ]"
@@ -71,10 +136,10 @@
                             <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
-                </td>-->
+                </td>&ndash;&gt;
             </tr>
             </tbody>
-        </table>
+        </table>-->
         <br>
     </div>
     <div *ngIf="activities && activities.length">
