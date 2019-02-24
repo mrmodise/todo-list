@@ -49,7 +49,6 @@ export class ActivityUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        console.log(`Activity data is ${JSON.stringify(this.activity)}`);
         if (this.activity.id !== undefined) {
             this.subscribeToSaveResponse(this.activityService.update(this.activity));
         } else {

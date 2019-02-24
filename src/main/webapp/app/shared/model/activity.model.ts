@@ -7,6 +7,8 @@ export interface IActivity {
     description?: string;
     dueDate?: Moment;
     completed?: boolean;
+    category?: string;
+    isCollapsed?: boolean;
     categories?: ICategory;
 }
 
@@ -17,8 +19,11 @@ export class Activity implements IActivity {
         public description?: string,
         public dueDate?: Moment,
         public completed?: boolean,
+        public category?: string,
+        public isCollapsed?: boolean,
         public categories?: ICategory
     ) {
         this.completed = this.completed || false;
+        this.isCollapsed = this.isCollapsed || false;
     }
 }

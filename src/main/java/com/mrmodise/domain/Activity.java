@@ -43,6 +43,9 @@ public class Activity implements Serializable {
     @Column(name = "category", nullable = false)
     private String category;
 
+    @Column(name = "is_collapsed")
+    private Boolean isCollapsed;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("activities")
@@ -122,6 +125,19 @@ public class Activity implements Serializable {
         this.category = category;
     }
 
+    public Boolean isIsCollapsed() {
+        return isCollapsed;
+    }
+
+    public Activity isCollapsed(Boolean isCollapsed) {
+        this.isCollapsed = isCollapsed;
+        return this;
+    }
+
+    public void setIsCollapsed(Boolean isCollapsed) {
+        this.isCollapsed = isCollapsed;
+    }
+
     public Category getCategories() {
         return categories;
     }
@@ -165,6 +181,7 @@ public class Activity implements Serializable {
             ", dueDate='" + getDueDate() + "'" +
             ", completed='" + isCompleted() + "'" +
             ", category='" + getCategory() + "'" +
+            ", isCollapsed='" + isIsCollapsed() + "'" +
             "}";
     }
 }

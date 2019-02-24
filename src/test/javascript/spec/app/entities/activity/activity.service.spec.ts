@@ -28,7 +28,7 @@ describe('Service Tests', () => {
             currentDate = moment();
 
             cat = new Category();
-            elemDefault = new Activity(0, 'AAAAAAA', 'AAAAAAA', currentDate, false, cat);
+            elemDefault = new Activity(0, 'AAAAAAA', 'AAAAAAA', currentDate, false, 'Test', false);
         });
 
         describe('Service methods', async () => {

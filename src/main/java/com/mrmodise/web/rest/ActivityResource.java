@@ -6,7 +6,6 @@ import com.mrmodise.web.rest.util.HeaderUtil;
 import com.mrmodise.web.rest.util.PaginationUtil;
 import com.mrmodise.service.dto.ActivityCriteria;
 import com.mrmodise.service.ActivityQueryService;
-import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +52,7 @@ public class ActivityResource {
      */
     @PostMapping("/activities")
     public ResponseEntity<Activity> createActivity(@Valid @RequestBody Activity activity) throws URISyntaxException {
-        log.debug("REST request to save Activity ::: {}", activity);
+        log.debug("REST request to save Activity : {}", activity);
         if (activity.getId() != null) {
             throw new BadRequestAlertException("A new activity cannot already have an ID", ENTITY_NAME, "idexists");
         }

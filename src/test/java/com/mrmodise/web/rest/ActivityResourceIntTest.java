@@ -61,6 +61,9 @@ public class ActivityResourceIntTest {
     private static final String DEFAULT_CATEGORY = "AAAAAAAAAA";
     private static final String UPDATED_CATEGORY = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_IS_COLLAPSED = false;
+    private static final Boolean UPDATED_IS_COLLAPSED = true;
+
     @Autowired
     private ActivityRepository activityRepository;
 
@@ -113,7 +116,8 @@ public class ActivityResourceIntTest {
             .description(DEFAULT_DESCRIPTION)
             .dueDate(DEFAULT_DUE_DATE)
             .completed(DEFAULT_COMPLETED)
-            .category(DEFAULT_CATEGORY);
+            .category(DEFAULT_CATEGORY)
+            .isCollapsed(DEFAULT_IS_COLLAPSED);
         // Add required entity
         Category category = CategoryResourceIntTest.createEntity(em);
         em.persist(category);
@@ -147,6 +151,7 @@ public class ActivityResourceIntTest {
         assertThat(testActivity.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
         assertThat(testActivity.isCompleted()).isEqualTo(DEFAULT_COMPLETED);
         assertThat(testActivity.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+        assertThat(testActivity.isIsCollapsed()).isEqualTo(DEFAULT_IS_COLLAPSED);
     }
 
     @Test
@@ -273,7 +278,8 @@ public class ActivityResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
             .andExpect(jsonPath("$.[*].completed").value(hasItem(DEFAULT_COMPLETED.booleanValue())))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())));
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].isCollapsed").value(hasItem(DEFAULT_IS_COLLAPSED.booleanValue())));
     }
     
     @Test
@@ -291,7 +297,8 @@ public class ActivityResourceIntTest {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
             .andExpect(jsonPath("$.completed").value(DEFAULT_COMPLETED.booleanValue()))
-            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()));
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
+            .andExpect(jsonPath("$.isCollapsed").value(DEFAULT_IS_COLLAPSED.booleanValue()));
     }
 
     @Test
@@ -518,6 +525,45 @@ public class ActivityResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllActivitiesByIsCollapsedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        activityRepository.saveAndFlush(activity);
+
+        // Get all the activityList where isCollapsed equals to DEFAULT_IS_COLLAPSED
+        defaultActivityShouldBeFound("isCollapsed.equals=" + DEFAULT_IS_COLLAPSED);
+
+        // Get all the activityList where isCollapsed equals to UPDATED_IS_COLLAPSED
+        defaultActivityShouldNotBeFound("isCollapsed.equals=" + UPDATED_IS_COLLAPSED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllActivitiesByIsCollapsedIsInShouldWork() throws Exception {
+        // Initialize the database
+        activityRepository.saveAndFlush(activity);
+
+        // Get all the activityList where isCollapsed in DEFAULT_IS_COLLAPSED or UPDATED_IS_COLLAPSED
+        defaultActivityShouldBeFound("isCollapsed.in=" + DEFAULT_IS_COLLAPSED + "," + UPDATED_IS_COLLAPSED);
+
+        // Get all the activityList where isCollapsed equals to UPDATED_IS_COLLAPSED
+        defaultActivityShouldNotBeFound("isCollapsed.in=" + UPDATED_IS_COLLAPSED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllActivitiesByIsCollapsedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        activityRepository.saveAndFlush(activity);
+
+        // Get all the activityList where isCollapsed is not null
+        defaultActivityShouldBeFound("isCollapsed.specified=true");
+
+        // Get all the activityList where isCollapsed is null
+        defaultActivityShouldNotBeFound("isCollapsed.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllActivitiesByCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
         Category categories = CategoryResourceIntTest.createEntity(em);
@@ -546,7 +592,8 @@ public class ActivityResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
             .andExpect(jsonPath("$.[*].completed").value(hasItem(DEFAULT_COMPLETED.booleanValue())))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)));
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
+            .andExpect(jsonPath("$.[*].isCollapsed").value(hasItem(DEFAULT_IS_COLLAPSED.booleanValue())));
 
         // Check, that the count call also returns 1
         restActivityMockMvc.perform(get("/api/activities/count?sort=id,desc&" + filter))
@@ -598,7 +645,8 @@ public class ActivityResourceIntTest {
             .description(UPDATED_DESCRIPTION)
             .dueDate(UPDATED_DUE_DATE)
             .completed(UPDATED_COMPLETED)
-            .category(UPDATED_CATEGORY);
+            .category(UPDATED_CATEGORY)
+            .isCollapsed(UPDATED_IS_COLLAPSED);
 
         restActivityMockMvc.perform(put("/api/activities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -614,6 +662,7 @@ public class ActivityResourceIntTest {
         assertThat(testActivity.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
         assertThat(testActivity.isCompleted()).isEqualTo(UPDATED_COMPLETED);
         assertThat(testActivity.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testActivity.isIsCollapsed()).isEqualTo(UPDATED_IS_COLLAPSED);
     }
 
     @Test

@@ -42,6 +42,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="is_collapsed" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
             <column name="categories_id" type="bigint">
                 <constraints nullable="false" />
             </column>

@@ -5,7 +5,7 @@
     <div class="row justify-content-center align-items-center h-100 mb-3">
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <input type="text" [formControl]="searchField" class="form-control" name="searchField"
-                   placeholder="Search by title and category">
+                   placeholder="Search by Title">
         </div>
     </div>
     <div class="row">
@@ -25,41 +25,76 @@
         </div>
     </div>
     <div class="table-responsive" *ngIf="activities">
-        <div class="list-group" *ngFor="let activity of activities">
-            <button type="button" class="list-group-item list-group-item-action" (click)="isCollapsed = !isCollapsed"
-                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseActivity">
+        <div class="list-group" *ngFor="let activity of activities; trackBy: trackId">
+            <a class="list-group-item list-group-item-action" (click)="activity.isCollapsed = !activity.isCollapsed"
+                    [attr.aria-expanded]="!activity.isCollapsed" aria-controls="collapseActivity">
+                <span class="float-left mr-3" *ngIf="!activity.isCollapsed"><fa-icon icon="angle-right"></fa-icon></span>
+                <span class="float-left mr-3" *ngIf="activity.isCollapsed"><fa-icon icon="angle-down"></fa-icon></span>
                 <span class="float-left">{{activity.title}}</span>
+                <span class="float-right ml-3" [ngStyle]="{'color': activity.completed ? 'green' : 'red'}"><fa-icon icon="calendar-check"></fa-icon></span>
                 <span class="float-right">{{activity.categories?.name}}</span>
-            </button>
-            <div id="collapseActivity" [ngbCollapse]="isCollapsed">
+            </a>
+            <div id="collapseActivity" [ngbCollapse]="!activity.isCollapsed">
                 <div class="card">
                     <div class="card-body">
-                        <dl class="row-md jh-entity-details">
-                            <dt><span>Title</span></dt>
-                            <dd>
-                                <span>{{activity.title}}</span>
-                            </dd>
-                            <dt><span>Description</span></dt>
-                            <dd>
-                                <span>{{activity.description}}</span>
-                            </dd>
-                            <dt><span>Due Date</span></dt>
-                            <dd>
-                                <span>{{activity.dueDate | date: 'mediumDate'}}</span>
-                            </dd>
-                            <dt><span>Completed</span></dt>
-                            <dd>
-                                <span>{{activity.completed}}</span>
-                            </dd>
-                            <dt><span>Category</span></dt>
-                            <dd>
-                                <span>{{activity.category}}</span>
-                            </dd>
-                            <dt><span>Categories</span></dt>
-                            <dd *ngIf="activity.categories">
-                                <span>{{activity.categories?.name}}</span>
-                            </dd>
-                        </dl>
+                        <div class="row">
+                            <div class="col-4">
+                                <dt><span>Title</span></dt>
+                                <dd>
+                                    <span>{{activity.title}}</span>
+                                </dd>
+                            </div>
+                            <div class="col-4">
+                                <dt><span>Description</span></dt>
+                                <dd>
+                                    <span>{{activity.description}}</span>
+                                </dd>
+                            </div>
+                            <div class="col-4">
+                                <dt><span>Due Date</span></dt>
+                                <dd>
+                                    <span>{{activity.dueDate | date: 'mediumDate'}}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <dt><span>Status</span></dt>
+                                <dd>
+                                    <span>{{activity.completed ? 'Completed' : 'Incomplete' }}</span>
+                                </dd>
+                            </div>
+                            <div class="col-4">
+                                <dt><span>Category</span></dt>
+                                <dd *ngIf="activity.categories">
+                                    <span>{{activity.categories?.name}}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['/activity', activity.id, 'edit']"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Edit</span>
+                                    </button>
+                                    <button type="submit"
+                                            (click)="complete(activity)"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon icon="check-circle"></fa-icon>
+                                        <span class="d-none d-md-inline">Complete</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', 'activity', { outlets: { popup: activity.id + '/delete'} }]"
+                                            replaceUrl="true"
+                                            queryParamsHandling="merge"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Delete</span>
+                                    </button>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>

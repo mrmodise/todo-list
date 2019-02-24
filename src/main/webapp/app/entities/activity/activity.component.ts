@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Activity, IActivity } from 'app/shared/model/activity.model';
 import { AccountService } from 'app/core';
@@ -15,7 +15,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     templateUrl: './activity.component.html'
 })
 export class ActivityComponent implements OnInit, OnDestroy {
-    currentAccount: any;
     activities: IActivity[];
     error: any;
     success: any;
@@ -29,8 +28,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     searchField: FormControl;
-    public isCollapsed = true;
-    id: number;
 
     constructor(
         protected activityService: ActivityService,
@@ -157,7 +154,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    open(id: number) {
-        console.log(`Id is ${id}`);
+    complete(activity: IActivity) {
+        activity.completed = !activity.completed;
+        this.subscribeToSaveResponse(this.activityService.update(activity));
+        console.log(`Completed activity ${JSON.stringify(activity)} of ID ${activity.id}`);
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IActivity>>) {
+        result.subscribe((res: HttpResponse<IActivity>) => console.log(`success`), (res: HttpErrorResponse) => console.log(`Error`));
     }
 }

@@ -10,7 +10,7 @@
                 "required"
             ],
             "otherEntityField": "name",
-            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipNameUndefined": false,
             "otherEntityRelationshipName": "activity"
         }
     ],
@@ -49,6 +49,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "isCollapsed",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20190222045603",
